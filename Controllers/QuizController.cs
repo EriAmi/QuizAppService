@@ -28,12 +28,12 @@ namespace QuizApp.Controllers
             return Ok(new { quiz.Id, message = "Quiz created successfully!" });
         }
 
-       
+
 
         [HttpGet("start-quiz")]
         public async Task<IActionResult> StartQuiz(string quizId)
         {
-            var quiz = _quizService.GetQuiz(quizId);
+            var quiz = _quizService.GetQuizAsync(quizId);
             if (quiz == null)
             {
                 return BadRequest("Quiz does not exist");
@@ -43,14 +43,14 @@ namespace QuizApp.Controllers
             return Ok(new { message = "Quiz started" });
         }
 
-     
+
 
 
         [HttpGet("get-quiz")]
-        public IActionResult GetQuiz(string id)
+        public async Task<IActionResult> GetQuiz(string id)
         {
 
-            var quiz = _quizService.GetQuiz(id);
+            var quiz = await _quizService.GetQuizAsync(id);
             if (quiz == null)
             {
                 return NotFound($"quiz with id: {id} does not exist");
@@ -79,9 +79,10 @@ namespace QuizApp.Controllers
 
             var result = await _quizService.CreatePlayerAsync(player);
 
-            return result == OperationResult.Success
-        ? Ok(player)
-        : NotFound("No quiz found"); ;
+            return result == OperationResult.Success 
+                ? Ok(player) 
+                : NotFound("No quiz found"); 
+                    
         }
 
         [HttpPost("submit-answer")]
@@ -98,7 +99,7 @@ namespace QuizApp.Controllers
         [HttpGet("get-players")]
         public IActionResult GetPlayers(string quizId)
         {
-            var quiz = _quizService.GetQuiz(quizId);
+            var quiz = _quizService.GetQuizAsync(quizId);
             if (quiz == null) return NotFound("Quiz does not exist");
 
             return Ok(_quizService.GetPlayers(quizId));
@@ -107,18 +108,10 @@ namespace QuizApp.Controllers
         [HttpGet("next-question")]
         public IActionResult NextQuestion(string quizId)
         {
-            var quiz = _quizService.GetQuiz(quizId);
+            var quiz = _quizService.GetQuizAsync(quizId);
             if (quiz == null) return NotFound("Quiz does not exist");
 
             return Ok(_quizService.NextQuestion(quizId));
         }
-    }
-
-    public class PlayerAnswerRequest
-    {
-        public string QuizId { get; set; }
-        public string PlayerId { get; set; }
-        public int QuestionId { get; set; }
-        public string Answer { get; set; }
     }
 }

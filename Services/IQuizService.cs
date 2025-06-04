@@ -5,13 +5,14 @@ namespace QuizAppService.Services
 {
     public interface IQuizService
     {
-        Quiz CreateQuiz(Quiz quiz);
+        Task<Quiz> CreateQuiz(Quiz quiz);
         Task StartQuiz(string quizId);
         Task NextQuestion(string quizId);
-        Quiz GetQuiz(string id);
+        Task <Quiz> GetQuizAsync(string id);
         List<Quiz> GetAllQuizzes();
         Task<OperationResult> CreatePlayerAsync(Player player);
         OperationResult SubmitAnswer(PlayerAnswerRequest request);
-        List<Player> GetPlayers(string quizId);
+       Task <List<Player>> GetPlayers(string quizId);
+
     }
 }
