@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizAppService", "QuizAppService.csproj", "{DA62DE39-B6A4-F76B-6F87-B00356197016}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizAppService.Tests", "QuizAppService.Tests\QuizAppService.Tests.csproj", "{18642370-6B79-43F4-9FE4-3C53C3415743}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DA62DE39-B6A4-F76B-6F87-B00356197016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA62DE39-B6A4-F76B-6F87-B00356197016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA62DE39-B6A4-F76B-6F87-B00356197016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18642370-6B79-43F4-9FE4-3C53C3415743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18642370-6B79-43F4-9FE4-3C53C3415743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18642370-6B79-43F4-9FE4-3C53C3415743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18642370-6B79-43F4-9FE4-3C53C3415743}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

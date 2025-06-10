@@ -28,6 +28,7 @@ namespace QuizAppService.Services
 
         public async Task StartQuiz(string quizId)
         {
+
             await _hubContext.Clients.Group(quizId).SendAsync("QuizStarted", true);
         }
 
@@ -37,7 +38,7 @@ namespace QuizAppService.Services
         }
 
         public async Task<Quiz?> GetQuizAsync(string id)
-          {
+        {
             var cachedQuiz = await _cache.GetCachedValueAsync<Quiz>($"Quiz:{id}");
             if (cachedQuiz != null)
                 return cachedQuiz;
@@ -63,7 +64,7 @@ namespace QuizAppService.Services
 
         }
 
-        public async Task <List<Player>> GetPlayers(string quizId)
+        public async Task<List<Player>> GetPlayers(string quizId)
         {
             //await _cache.ClearCachedValueAsync($"quiz:{quizId}"); måste cleara när ändringar görs
             var quiz = await GetQuizAsync(quizId);
@@ -88,8 +89,9 @@ namespace QuizAppService.Services
 
         public async Task NextQuestion(string quizId)
         {
-            var quiz = GetQuizAsync(quizId);
-            await _hubContext.Clients.Group(quizId).SendAsync("NextQuestion", quiz.Id);
+            var quiz = await GetQuizAsync(quizId);
+            if (quiz != null)
+                await _hubContext.Clients.Group(quizId).SendAsync("NextQuestion", quiz.Id);
         }
     }
 }

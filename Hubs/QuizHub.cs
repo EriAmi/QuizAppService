@@ -2,12 +2,13 @@
 
 namespace QuizAppService.Hubs
 {
-    public class QuizHub : Hub
+    public class QuizHub : Hub<IQuizHub>
+
     {
         //create interface, make all hub methods to decouple from service.
         public async Task StartQuiz(string quizId)
         {
-            await Clients.Group(quizId).SendAsync("QuizStarted");
+            await Clients.Group(quizId).QuizStarted(true);
         }
 
         public override async Task OnConnectedAsync()

@@ -1,4 +1,5 @@
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using QuizAppService.Hubs;
 using QuizAppService.Services;
 using StackExchange.Redis;
@@ -18,10 +19,31 @@ builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
 
 var app = builder.Build();
 
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        var exceptionFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionFeature?.Error != null)
+        {
+            logger.LogError(exceptionFeature.Error, "Unhandled exception while processing {Path}", exceptionFeature.Path);
+        }
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+        var problem = new ProblemDetails
+        {
+            Status = 500,
+            Title = "An unexpected error occurred."
+        };
+        await context.Response.WriteAsJsonAsync(problem);
+    });
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    //app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
